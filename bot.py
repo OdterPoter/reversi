@@ -8,6 +8,7 @@ import json
 import inspect
 import textwrap
 import traceback
+import time
 from contextlib import redirect_stdout
 from discord.voice_client import VoiceClient
 from discord import Game, Embed, Color, Status, ChannelType
@@ -18,6 +19,10 @@ radom_color_say=[0x32CD32, 0x4169E1, 0x9932CC]
 @bot.event
 async def on_ready():
     print("Reversi on")
+    guild = bot.get_guild(id=586794690313977856)
+    channel = discord.utils.get(guild.channels, id=593001939168395265)
+    while True:
+        await channel.edit(name=f'Участников дискорд - {guild.member_count}')
 bot.remove_command("help")   
 @bot.event
 async def on_member_join(member):
@@ -66,7 +71,7 @@ async def sayem(ctx,title, *, words):
     await ctx.message.delete()
     sayforem=discord.Embed(title=title, description=words, color=random.choice(radom_color_say))
     sayforem.set_author(name=f"Все права защищены {ctx.message.guild.name}", icon_url=ctx.message.guild.icon_url)
-    sayforem.set_footer(text=str(ctx.message.created_at)[:16], icon_url='https://i.imgur.com/sxwgLq6.png')
+    sayforem.set_footer(text=ctx.message.guild.name, icon_url='https://i.imgur.com/sxwgLq6.png')
     await ctx.send(embed=sayforem)
 @bot.command(aliases=['ki'])
 @commands.has_permissions(kick_members=True)
